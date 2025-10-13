@@ -16,3 +16,14 @@ class Location
     }
 }
 
+
+
+/*
+Event = title, datetime start, datetime end, desc, list (vilka som är involverade), location, list(participant event), list(documents som ör relaterade till detta), 
+kan skapa en journal som en klass.
+gällande event kan man ha en type, vilka event där location och type är appointment och start som är idag, kunna se vilka som är inlvoverade, kan använda 
+--- båda 
+
+event participant = IUser, Role, 
+
+*/
