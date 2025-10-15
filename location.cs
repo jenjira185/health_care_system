@@ -13,4 +13,3 @@ class Location
         Name = name;
     }
 }
-
