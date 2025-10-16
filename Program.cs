@@ -25,3 +25,10 @@
 
 using HealthCareSystem;
 
+/*
+List<User> users = new();
+List<Appointment> appointments = new();
+List<Journal> journals = new();
+*/
+
+//commenting this out while waiting....
