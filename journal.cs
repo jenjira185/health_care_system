@@ -2,7 +2,7 @@ namespace HealthCareSystem;
 
 
 // class for journal with keys
-class journal
+class Journal
 {
     public string Title;
     public string Descriptions;

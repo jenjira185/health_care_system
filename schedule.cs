@@ -1,6 +1,6 @@
 namespace HealthCareSystem;
 
-class schedule
+class Schedule
 {
     public List<Appointment> appointments;
 
