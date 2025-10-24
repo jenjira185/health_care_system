@@ -1,20 +1,22 @@
+using System;
+using System.Collections.Generic;
 namespace HealthCareSystem;
 
-class Location
+public class Location
 {
-    public int locationID;
-    public string Region;
-    public string Adress;
-    public string Name;
-    public List<string> schedule();     //a string for schedule to be included in location
+    public int LocationID { get; set; }
+    public string Region { get; set; }
+    public string Adress { get; set; }
+    public string Name { get; set; }
+    public List<string> Schedule { get; set; }     //a string for schedule to be included in location
 
-    public Location(string region, string adress, string name)
+    public Location(int id, string region, string adress, string name)
     {
-        locationID = ID;
+        locationID = id;
         Region = region;
         Adress = adress;
         Name = name;
-        schedule = new List<string>();    //Initializing the schedule like an empty list
+        Schedule = new List<string>();    //Initializing the schedule like an empty list
     }
 
     public int GetLocationID()      //Instead of using get; set; I use the method to return the value
@@ -28,7 +30,7 @@ class Location
 
     public List<string> GetSchedule()     //This returns the whole schedule 
     {
-        return schedule;      
+        return schedule;
     }
 
     public void AddToSchedule(string appointmentDetails)     //This method is used to add an appointment in the schedule

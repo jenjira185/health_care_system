@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 namespace HealthCareSystem;
 
 class User
@@ -37,5 +39,8 @@ class User
             Console.WriteLine($"{Name} is not logged in");
         }
     }
-    public abstract void ViewSchedule();
+    public virtual void ViewSchedule()
+    {
+        Console.WriteLine("No schedule available.");
+    }
 }

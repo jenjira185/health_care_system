@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 namespace HealthCareSystem;
 
 
@@ -16,7 +18,7 @@ class Journal
 
 
     // A constructor to create a new journal
-    public journal(string title, string desc, int patID, int inChargeID)
+    public Journal(string title, string desc, int patID, int inChargeID)
     {
         Title = title;
         Descriptions = desc;
