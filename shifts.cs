@@ -20,7 +20,7 @@ namespace HealthCareSystem
 
         public string Format()
         {
-            return $"{PersonnelName,-10}, | {Department,-12} | {Start:yyyy-MM-dd HH:mm} - {End:HH:mm}";
+            return $"{PersonnelName,-15}, | {Department,-12} | {Start:yyyy-MM-dd HH:mm} - {End:HH:mm}";
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 
-namespace HealthCareSystem
-{
+namespace HealthCareSystem;
+
     class Utils
     {
         public static int GetIndexAddOne(List<User> users)
@@ -61,4 +61,3 @@ namespace HealthCareSystem
             }
         }
     }
-}

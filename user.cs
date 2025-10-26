@@ -1,7 +1,4 @@
 
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-
 namespace HealthCareSystem
 {
     public enum Role
@@ -13,7 +10,7 @@ namespace HealthCareSystem
         superAdmin,
     }
 
-    public enum PersonnelRole
+    public enum PersonnelRoles
     {
         None,
         Doctor,
@@ -50,11 +47,11 @@ namespace HealthCareSystem
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
-        public string PasswordHarsh { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
         public string PasswordSalt { get; set; } = string.Empty;
         public string RoleDetails { get; set; } = string.Empty;
         public Role Role { get; set; }
-        public PersonnelRoles personnelRoles { get; set; }
+        public PersonnelRoles PersonnelRoles { get; set; }
         public Registration Registration { get; set; }
 
         public List<Permissions> PermissionList { get; set; } = new List<Permissions> { Permissions.None };
@@ -67,35 +64,35 @@ namespace HealthCareSystem
             Registration = (role == Role.Patient || role == Role.Admin) ? Registration.Pending : Registration.Accepted;
             Username = username;
             Role = role;
-            var (hash, salt) = PasswordHelp.HashPassword(password);
+            var (hash, salt) = PasswordHelper.HashPassword(password);
             PasswordHash = hash;
             PasswordSalt = salt;
 
             Registration = (role == Role.Patient || role == Role.Admin) ? Registration.Pending : Registration.Accepted;
         }
 
-        public bool AssignPersonnel(int PersonnelId)
+        public bool AssignPersonnel(int personnelId)
         {
-            if (this.Role == Role.Patient && !AssignedPersonnelIds.Contains(PersonnelId))
+            if (this.Role == Role.Patient && !AssignedPersonnelIds.Contains(personnelId))
             {
-                AssignedPersonnelIds.Add(PersonnelId);
+                AssignedPersonnelIds.Add(personnelId);
                 return true;
             }
 
             return false;
         }
 
-        public void SetRolePersonnel(int handleRole, User persObject, string RoleDetails)
+        public void SetRolePersonnel(int handleRole, User persObject, string roleDetails)
         {
             if (persObject.GetRole() == Role.Personnel)
             {
-                if (Enum.IsDefined(typeof(PersonnelRole), handleRole))
+                if (Enum.IsDefined(typeof(PersonnelRoles), handleRole))
                 {
-                    PersonnelRole = (PersonnelRole)handleRole;
+                    PersonnelRole = (PersonnelRoles)handleRole;
 
-                    if (PersonnelRole == PersonnelRole.Doctor)
+                    if (PersonnelRole == PersonnelRoles.Doctor)
                     {
-                        this.RoleDetails = string.IsNullOrWhiteSpace(RoleDetails) ? string.Empty : RoleDetails;
+                        this.RoleDetails = string.IsNullOrWhiteSpace(roleDetails) ? string.Empty : roleDetails;
                     }
                     else
                     {
@@ -114,7 +111,7 @@ namespace HealthCareSystem
         public Registration GetRegistration() => Registration;
 
         public bool TryLogin(string username, string password)
-        => Username = username && PasswordHelp.VerifyPassword(password, PasswordHarsh, PasswordSalt);
+        => Username = username && PasswordHelper.VerifyPassword(password, PasswordHash, PasswordSalt);
 
         public void SetRolePersonnel()
         {
@@ -126,7 +123,8 @@ namespace HealthCareSystem
         public void RevokePermission(Permissions permi)
         {
             PermissionList.Remove(permi);
-            if (PermissionList.Add(Permissions.None)) ;
+            if(PermissionList.Count == 0)
+            PermissionList.Add(Permissions.None);
         }
 
         public void AcceptAddLocationPermission()
@@ -178,7 +176,7 @@ namespace HealthCareSystem
                 PermissionList.Add(Permissions.None);
         }
 
-        public void AcceptViewPersonnel()
+        public void AcceptViewPermissions()
         {
             if (!PermissionList.Contains(Permissions.ViewPermissions))
                 PermissionList.Add(Permissions.ViewPermissions);
@@ -192,11 +190,11 @@ namespace HealthCareSystem
         }
 
         public bool HasPermission(Permissions permission)
-        => PermissionList.Contains(Permission);
+        => PermissionList.Contains(permission);
 
         public string ToPersonnelDisPlay()
         {
-            if (Role != Role.Personnel || PersonnelRole != PersonnelRole.Doctor)
+            if (Role != Role.Personnel || PersonnelRole != PersonnelRoles.Doctor)
             {
                 return $"{Username} - No Doctor";
 
@@ -206,7 +204,7 @@ namespace HealthCareSystem
             return $"Dr. {Username} - {details}";
         }
 
-        //Något fel här med {}
+        
         public override string ToString()
         {
             string roleInfo = (Role == Role.Personnel)
@@ -216,7 +214,7 @@ namespace HealthCareSystem
         }
 
         public Region? assignedRegion = null;
-        public void assignedRegion(Region region)
+        public void AssignedRegion(Region region)
         {
             assignedRegion = region;
         }

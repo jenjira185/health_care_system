@@ -1,20 +1,23 @@
 
-namespace HealthCareSystem;
-
-public class Location
+namespace HealthCareSystem
 {
-    public string Region { get; set; }
-    public string HospitalName { get; set; }
-    public List<User> adminLocation { get; private set; }     //a string for schedule to be included in location
-
-    public Location(string region, string hostiName)
+    class Location
     {
-        Region = region;
-        HospitalName = hostiName;
-    }
+        public string Region { get; set; }
+        public string HospitalName { get; set; }
+        public List<User> adminLocation { get; private set; }     //a string for schedule to be included in location
 
-    public override string ToString()
-    {
-        return $"{HospitalName} {Region}";
+        public Location(string region, string hostiName)
+        {
+           Region = region;
+           HospitalName = hostiName;
+        }
+
+        public override string ToString()
+        {
+           return $"{HospitalName} {Region}";
+        }
     }
 }
+
+
