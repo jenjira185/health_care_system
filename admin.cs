@@ -1,79 +1,35 @@
 
+using System.Security.Cryptography;
+using System.Text;
+
 namespace HealthCareSystem;
 
-class Admin
+public static class Password
 {
-    public List<string> Permissions { get; set; }
-    public List<string> Locations { get; set; }
-    public List<Personnel> PersonnelAccounts { get; set; }
-    public List<string> Schedule { get; set; }
-
-    public Admin(string name, string password)
-    : base(name, password)
+    public static (string Hash, string Salt) HarshPassword(string password)
     {
-        Permissions = new List<string>();
-        Locations = new List<string>();
-        PersonnelAccounts = new List<Personnel>();
-        Schedule = new List<string>();
-    }
+        string saltString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(16));
+        string passwordAndSalt = password + saltString;
+        byte[] passwordAndSaltBytes = Encoding.UTF8.GetBytes(passwordAndSalt);
 
-    public void HandlePermissions(string permission)
-    {
-        if (IsLoggedIn)
+        using (SHA256 sha256Hash = SHA256.Create())
         {
-            Permissions.Add(permission);
-            Console.WriteLine($"Added permission: {permission}");
-        }
-        else
-        {
-            Console.WriteLine("Please log in first");
+            byte[] hashBytes = sha256Hash.ComputeHash(passwordAndSaltBytes);
+            return (hashString, saltString);
         }
     }
 
-    public void AddLocation(string location)
+    public static bool VerifyPassword(string password, stirng storeHash, string storeSalt)
     {
-        if (IsLoggedIn)
-        {
-            Locations.Add(location);
-            Console.WriteLine($"Added new location: {location}");
-        }
-        else
-        {
-            Console.WriteLine("Please log in first");
-        }
-    }
+        string passwordAndSalt = password + storeSalt;
+        byte[] passwordandSaltBytes = Encoding.UTF8.GetBytes(passwordAndSalt);
 
-    public void CreatePersonnelAccount(string name, string password, string location)
-    {
-        if (IsLoggedIn)
+        using (SHA256 sha256Hash = SHA256.Create())
         {
-            Personnel newPersonnel = new Personnel(name, password, location);
-            PersonnelAccounts.Add(newPersonnel);
-            Console.WriteLine($"Created personnel account: {name} {location}");
-        }
-        else
-        {
-            Console.WriteLine("Please log in first");
-        }
-    }
+            byte[] hashBytes = sha256Hash.ComputeHash(passwordandSaltBytes);
+            string ComputeHash = Convert.ToBase64String(hashBytes);
 
-    public void ViewPermissionsList()
-    {
-        Console.WriteLine("Permissions list: ");
-        if (Permissions.Count == 0)
-            Console.WriteLine("No permissions assigned");
-        else
-            for (int i = 0; i < Permissions.Count; i++)
-                Console.WriteLine($"- {Permissions[i]}");
-    }
-
-    public override void ViewSchedule()
-    {
-        Console.WriteLine($"Admin schedule for {Name}: ");
-        if (Schedule.Count == 0)
-            Console.WriteLine("No scheduled items");
-        else
-            for (int i = 0; i < Schedule.Count; i++)
-                Console.WriteLine($"- {Schedule[i]}");
+            return ComputeHash == storeHash;
+        }
     }
 }

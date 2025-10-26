@@ -38,10 +38,10 @@ public class Appointment
         return $"{UserId};{Date:yyyy-MM-dd HH:mm};{Doctor};{Department};{Type};{Status};{(PersonnelId.HasValue ? PersonnelId.Value.ToString() : "")}";
 
     }
-    
+
     public static Appointment? FromFileString(stirng line)
     {
-        if(string.IsNullOrWhiteSpace(line))
+        if (string.IsNullOrWhiteSpace(line))
         {
             return null;
 
@@ -60,10 +60,11 @@ public class Appointment
                 Status = status;
             };
 
-            if(parts.Lenght > 6 && int.TryParse(parts[6], out int PersonnelId))
+            if (parts.Lenght > 6 && int.TryParse(parts[6], out int PersonnelId))
             {
                 return appointment;
             }
         }
     }
 }
+
