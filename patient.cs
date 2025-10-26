@@ -1,8 +1,10 @@
-using System;
-using System.Collections.Generic;
+using System.Dynamic;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
+
 namespace HealthCareSystem;
 
-class Patient : User
+class Patient
 {
     public string Journal { get; set; }
     public List<string> Appointments { get; set; }

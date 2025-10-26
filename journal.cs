@@ -6,36 +6,26 @@ namespace HealthCareSystem;
 // class for journal with keys
 class Journal
 {
-    public string Title;
+    public string Name;
     public string Descriptions;
-    public DateTime dateCreated;
-    public DateTime dateLast;
-
-    //using ID so the patient journal can get access to correct personnel
-    public int patientID;
-    public int staffID;
-
+    public User Owner;
 
 
     // A constructor to create a new journal
-    public Journal(string title, string desc, int patID, int inChargeID)
+    public Journal(string name, string desc, User owner)
     {
-        Title = title;
+        Name = name;
         Descriptions = desc;
-        patientID = patID;
-        staffID = inChargeID;
-
-        //using datetime to know when the journal have been created
-        dateCreated = DateTime.Now;
-        dateLast = DateTime.Now;
+        Owner = owner;
     }
 
-
-    // An new constructor for the journal to update
-    public void UpdateJournal(string newDesc, int modifierStaffID)
+    public string Info()
     {
-        Descriptions = newDesc;
-        staffID = modifierStaffID;
-        dateLast = DateTime.Now;   //using datetime for journal's last update of the patient
+        return $"{Name} - by: {Owner.Email}";
+    }
+
+    public string ToSaveString()
+    {
+        return $"{Name}, {Descriptions}, {Owner.Email}";
     }
 }

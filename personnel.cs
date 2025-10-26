@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace HealthCareSystem;
 
 
-class Personnel : User
+class Personnel
 {
     public List<Patient> patients { get; set; }
     public List<string> Schedule { get; set; }

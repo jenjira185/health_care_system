@@ -1,59 +1,62 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.Net;
 namespace HealthCareSystem;
+
 
 public class Appointment
 {
-    public int AppointmentID { get; set; }
-    public string PatientName { get; set; }
-    public string personnelName { get; set; }
+    public User Patient;
+    public User Personnel;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public string Status { get; set; }
+    public TradeStatus Status = TradeStatus.Pending;
 
-    public Appointment(int id, string patient, string personnel, DateTime start, DateTime end, string status)
+
+    public Appointment(User patient, User personnel)
     {
-        AppointmentID = id;
-        PatientName = patient;
-        personnelName = personnel;
-        StartDate = start;
-        EndDate = end;
-        Status = status;
+        Patient = patient;
+        Personnel = personnel;
     }
 
-    public override string ToString()
+    public string ToSaveString()
     {
-        return $"{AppointmentID}: {PatientName} with {personnelName} on {StartDate.ToShortDateString()} ({Status})";
+        string result = $"{patient.Email}, {Personnel.Email}, {StartDate: 2025-10-20, 09:00}";
+        foreach (Journal journal in Journals)
+        {
+            result += $"{journal.Name}, {journal.Owner.Email}";
+        }
+        result += Status;
+        return result;
+    }
+
+
+    public void Accept()
+    {
+        Status = TradeStatus.Accepted;
+
+        foreach (Journal journal in Journals)
+        {
+            if (journal.Owner == Patient)
+            {
+                journal.Owner = Personnel;
+            }
+            else if (journal.owner == Personnel)
+            {
+                journal.Owner = Patient;
+            }
+        }
+    }
+
+    public void Deny()
+    {
+        Status = TradeStatus.Denied;
     }
 }
 
-public class Schedule
+enum TradeStatus
 {
-    public List<Appointment> Appointments { get; set; }
-
-    public Schedule()
-    {
-        Appointments = new List<Appointment>();
-    }
-
-    public void AddAppointment(Appointment newAppointment)
-    {
-        Appointments.Add(newAppointment);
-    }
-
-    public void ViewSchedule()
-    {
-        if (Appointments.Count == 0)
-        {
-            Console.WriteLine("No appointments scheduled.");
-            return;
-        }
-
-        Console.WriteLine("Scheduled appointments: ");
-        foreach (var a in Appointments)
-        {
-            Console.WriteLine(a.ToString());
-        }
-    }
+    Pending,
+    Accepted,
+    Denied,
 }

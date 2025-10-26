@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 namespace HealthCareSystem;
 
-class Admin : User
+class Admin
 {
     public List<string> Permissions { get; set; }
     public List<string> Locations { get; set; }

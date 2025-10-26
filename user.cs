@@ -4,43 +4,23 @@ namespace HealthCareSystem;
 
 class User
 {
-    public string Name { get; set; }
-    public string Password { get; set; }
-    public bool IsLoggedIn { get; set; }
+    public string Email;
+    public string Password;
+    
 
-    public User(string name, string password)
+    public User(string email, string password)
     {
-        Name = name;
+        Email = email;
         Password = password;
     }
 
-    public virtual void Login(string password)
+    public bool TryLogIn(string email, string password)
     {
-        if (password == Password)
-        {
-            IsLoggedIn = true;
-            Console.WriteLine($"{Name} logged in succesfully");
-        }
-        else
-        {
-            Console.WriteLine("Incorrect password");
-        }
+        return email == Email && password == Password;
     }
 
-    public virtual void Logout()
+    public string ToSaveString()
     {
-        if (IsLoggedIn)
-        {
-            IsLoggedIn = false;
-            Console.WriteLine($"{Name} logged out");
-        }
-        else
-        {
-            Console.WriteLine($"{Name} is not logged in");
-        }
-    }
-    public virtual void ViewSchedule()
-    {
-        Console.WriteLine("No schedule available.");
+        return $"{Email}, {Password}";
     }
 }

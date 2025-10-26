@@ -7,7 +7,7 @@ public class Location
     public int LocationID { get; set; }
     public string Region { get; set; }
     public string Adress { get; set; }
-    public string Name { get; set; }
+    public string hospitalName { get; set; }
     public List<string> Schedule { get; set; }     //a string for schedule to be included in location
 
     public Location(int id, string region, string adress, string name)
@@ -15,10 +15,10 @@ public class Location
         locationID = id;
         Region = region;
         Adress = adress;
-        Name = name;
+        hospitalName = name;
         Schedule = new List<string>();    //Initializing the schedule like an empty list
+            
     }
-
     public int GetLocationID()      //Instead of using get; set; I use the method to return the value
     {
         return locationID;
