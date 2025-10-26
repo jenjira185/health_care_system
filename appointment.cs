@@ -39,10 +39,10 @@ public class Appointment
 
     }
 
-    public static Appointment? FromFileString(stirng line)
+    public static Appointment? FromFileString(string line)
     {
         if (string.IsNullOrWhiteSpace(line))
-        {
+        
             return null;
 
             var parts = line.Split(',');
@@ -57,14 +57,13 @@ public class Appointment
 
             var appointment = new Appointment(userId, date, doctor, depart, type)
             {
-                Status = status;
+                Status = status
             };
 
             if (parts.Lenght > 6 && int.TryParse(parts[6], out int PersonnelId))
             {
                 return appointment;
             }
-        }
     }
 }
 

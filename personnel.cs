@@ -169,7 +169,7 @@ public static class Personnel
               Console.WriteLine(journalEntry.Format());
 
             Console.WriteLine("\nAdd a new entry: yes/no");
-            string addEntryChoice = Console.ReadLine()?.Trim(), ToLower() ?? "";
+            string addEntryChoice = Console.ReadLine()?.Trim().ToLower() ?? "";
         if (addEntryChoice == "y")
         {
             string newEntryText = Utils.GetRequiredInput("Enter journal text: ");
