@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+
 namespace HealthCareSystem;
 
 
@@ -12,10 +11,10 @@ class Journal
 
 
     // A constructor to create a new journal
-    public Journal(string name, string desc, User owner)
+    public Journal(string name, string descriptions, User owner)
     {
         Name = name;
-        Descriptions = desc;
+        Descriptions = descriptions;
         Owner = owner;
     }
 
@@ -26,6 +25,6 @@ class Journal
 
     public string ToSaveString()
     {
-        return $"{Name}, {Descriptions}, {Owner.Email}";
+        return $"{Name}, {Description}, {Owner.Email}";
     }
 }

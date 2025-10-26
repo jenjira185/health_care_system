@@ -1,62 +1,69 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
+
 namespace HealthCareSystem;
 
 
 public class Appointment
 {
-    public User Patient;
-    public User Personnel;
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public TradeStatus Status = TradeStatus.Pending;
+    public int UserId { get; set; }
+    public DateTime Date { get; set; }
+    public string Doctor { get; set; }
+    public stirng Department { get; set; }
+    public string Type { get; set; }
+    public stirng Status { get; set; } = "Pending";
+    public int? PersonnelId { get; set; }
+    public bool IsAccepted { get; set; } = false;
 
 
-    public Appointment(User patient, User personnel)
+    public Appointment() { }
+
+    public Appointment(int userId, DateTime date, string doctor, string depart, string type)
     {
-        Patient = patient;
-        Personnel = personnel;
+        UserId = userId;
+        Date = date;
+        Doctor = doctor;
+        Department = depart;
+        Type = type;
+        Status = "Pending";
+        IsAccepted = "false";
     }
 
-    public string ToSaveString()
+    public string Format()
     {
-        string result = $"{patient.Email}, {Personnel.Email}, {StartDate: 2025-10-20, 09:00}";
-        foreach (Journal journal in Journals)
+        return $"Date: {Date: yyyy-MM-dd HH:mm} | Doctor: {Doctor,-10} | Depart: {Department,-10} | Type: {Type,-9} | Status: {Status}";
+
+    }
+
+    public string ToFileString()
+    {
+        return $"{UserId};{Date:yyyy-MM-dd HH:mm};{Doctor};{Department};{Type};{Status};{(PersonnelId.HasValue ? PersonnelId.Value.ToString() : "")}";
+
+    }
+    
+    public static Appointment? FromFileString(stirng line)
+    {
+        if(string.IsNullOrWhiteSpace(line))
         {
-            result += $"{journal.Name}, {journal.Owner.Email}";
-        }
-        result += Status;
-        return result;
-    }
+            return null;
 
+            var parts = line.Split(',');
+            if (parts.Length < 6) return null;
 
-    public void Accept()
-    {
-        Status = TradeStatus.Accepted;
+            int userId = int.Parse(parts[0]);
+            DateTime date = DateTime.Parse(parts[1]);
+            string doctor = parts[2];
+            string depart = parts[3];
+            string type = parts[4];
+            string status = parts[5];
 
-        foreach (Journal journal in Journals)
-        {
-            if (journal.Owner == Patient)
+            var appointment = new Appointment(userId, date, doctor, depart, type)
             {
-                journal.Owner = Personnel;
-            }
-            else if (journal.owner == Personnel)
+                Status = status;
+            };
+
+            if(parts.Lenght > 6 && int.TryParse(parts[6], out int PersonnelId))
             {
-                journal.Owner = Patient;
+                return appointment;
             }
         }
     }
-
-    public void Deny()
-    {
-        Status = TradeStatus.Denied;
-    }
-}
-
-enum TradeStatus
-{
-    Pending,
-    Accepted,
-    Denied,
 }

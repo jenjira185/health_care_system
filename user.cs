@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+
 namespace HealthCareSystem;
 
 class User
@@ -14,7 +13,7 @@ class User
         Password = password;
     }
 
-    public bool TryLogIn(string email, string password)
+    public bool TryLogin(string email, string password)
     {
         return email == Email && password == Password;
     }
